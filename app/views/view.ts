@@ -2,8 +2,18 @@ export abstract class View<T> {
       protected element: HTMLElement;
       private escapar: boolean = false;
 
-      constructor(selector: string, escapar: boolean) {
-            this.element = document.querySelector(selector);
+      constructor(selector: string, escapar?: boolean) {
+            this.element = document.querySelector(selector) as HTMLElement;
+
+            if(!this.element) {
+                  throw Error(`Seletor ${selector} não existe no DOM. Favor, verifique`)
+            
+            }
+
+            if (escapar) {
+                  this.escapar = escapar;
+                  
+            }
       }
 
       public update(model: T): void {

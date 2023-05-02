@@ -6,7 +6,7 @@ import { DiaDaSemana } from "../enums/dia-da-semana.js";
 export class NegociacaoController {
     constructor() {
         this.negociacoes = new Negociacoes();
-        this.negociacoesView = new NegociacoesView('#negociacoesView');
+        this.negociacoesView = new NegociacoesView('#negociacoesView', true);
         this.mensagemView = new MensagemView("#mensagemView");
         this.inputData = document.querySelector("#data");
         this.inputQuantidade = document.querySelector("#quantidade");
@@ -14,7 +14,7 @@ export class NegociacaoController {
         this.negociacoesView.update(this.negociacoes);
     }
     add() {
-        const negociacao = this.criaNegociacao();
+        const negociacao = Negociacao.cria(this.inputData.value, this.inputQuantidade.value, this.inputValor.value);
         if (!this.confirmaDia(negociacao.data)) {
             this.mensagemView
                 .update('Apenas negociações em dias úteis são aceitas');
@@ -26,13 +26,6 @@ export class NegociacaoController {
     confirmaDia(data) {
         return data.getDay() > DiaDaSemana.DOMINGO
             && data.getDay() < DiaDaSemana.SABADO;
-    }
-    criaNegociacao() {
-        const regx = /-/g;
-        const data = new Date(this.inputData.value.replace(regx, ','));
-        const quantidade = parseInt(this.inputQuantidade.value);
-        const valor = parseFloat(this.inputValor.value);
-        return new Negociacao(data, quantidade, valor);
     }
     limparForm() {
         this.inputData.value = '';
