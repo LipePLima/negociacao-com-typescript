@@ -24,13 +24,12 @@ export class NegociacaoController {
     const negociacao = this.criaNegociacao();
 
     this.negociacoes.adiciona(negociacao);
-    this.negociacoesView.update(this.negociacoes);
-    this.mensagemView.update("Negociação adicionada com sucesso!")
-
+    
+    this.attView();
     this.limparForm();
   }
 
-  public criaNegociacao(): Negociacao {
+  private criaNegociacao(): Negociacao {
     const regx: RegExp = /-/g;
 
     const data       = new Date(this.inputData.value.replace(regx, ','));
@@ -40,11 +39,16 @@ export class NegociacaoController {
     return new Negociacao(data, quantidade, valor);
   }
 
-  public limparForm(): void {
+  private limparForm(): void {
     this.inputData.value = '';
     this.inputQuantidade.value = '';
     this.inputValor.value = '';
 
     this.inputData.focus();
+  }
+
+  private attView(): void {
+    this.negociacoesView.update(this.negociacoes);
+    this.mensagemView.update("Negociação adicionada com sucesso!")
   }
 }
