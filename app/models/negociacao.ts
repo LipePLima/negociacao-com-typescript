@@ -14,4 +14,14 @@ export class Negociacao {
     get volume(): number {
         return this.quantidade * this.valor;
     }
+
+    public static cria(dataString: string, quantidadeString: string, valorString: string): Negociacao {
+        const regx: RegExp = /-/g;
+
+        const data       = new Date(dataString.replace(regx, ','));
+        const quantidade = parseInt(quantidadeString);
+        const valor      = parseFloat(valorString);
+    
+        return new Negociacao(data, quantidade, valor);
+    }
 }
